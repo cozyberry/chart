@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
-from chartdemo.views import current_datetime, hours_ahead,show_chart
+
+from chartdemo.views import current_datetime, hours_ahead,show_chart,error_page
+import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -7,8 +9,11 @@ from chartdemo.views import current_datetime, hours_ahead,show_chart
 
 urlpatterns = patterns('',
     (r'^time/$', current_datetime),
+    (r'^error/$', error_page),
     (r'^time/plus/(\d{1,2})/$', hours_ahead),
     (r'^show/$', show_chart),
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
+    #(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT})
 )
 
 

@@ -1,0 +1,36 @@
+Cheeseman Stutz Scores of different models
+1 clusters
+Best one is at 0th iteration
+The corresponding log_prob:  -42464.4735806
+1 clusters; 23 params
+BIC: -42453.075646
+Cheeseman_Stutz_Score: -19950.896610349922412
+
+2 clusters
+Best one is at 0th iteration
+The corresponding log_prob:  -42177.6740892
+2 clusters; 47 params
+BIC: -42142.768891
+Cheeseman_Stutz_Score: -19627.452759295574651
+
+3 clusters
+Best one is at 2th iteration
+The corresponding log_prob:  -42208.2382712
+3 clusters; 71 params
+BIC: -42152.286624
+Cheeseman_Stutz_Score: -19613.488343907691160
+
+4 clusters
+Best one is at 19th iteration
+The corresponding log_prob:  -42270.4530983
+4 clusters; 95 params
+BIC: -42193.331232
+Cheeseman_Stutz_Score: -19626.506067672515201
+
+5 clusters
+Best one is at 15th iteration
+The corresponding log_prob:  -42347.1798686
+5 clusters; 119 params
+BIC: -42247.613089
+Cheeseman_Stutz_Score: -19650.732343590905657
+

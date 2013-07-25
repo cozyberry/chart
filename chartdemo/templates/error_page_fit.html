@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html, body {
+              height: 100%;
+              width: 100%;
+              padding: 0;
+              margin: 0;
+            }
+
+#full-screen-background-image {
+              z-index: -999;
+              min-height: 100%;
+              min-width: 1024px;
+              width: 100%;
+              height: auto;
+              position: fixed;
+              top: 0;
+              left: 0;
+            }
+
+#wrapper {
+              position: relative;
+              width: 800px;
+              min-height: 400px;
+              margin: 100px auto;
+              color: #333;
+            }
+            
+        </style>
+    </head>
+
+    <body>
+      <img alt="full screen background image" src="{{ MEDIA_URL }}pics/simpsons_small.jpg" id="full-screen-background-image" /> 
+      <div id="wrapper">
+        <p> {{ err_msg }} </p>
+      </div>
+    </body>
+</html>
