@@ -21,6 +21,38 @@ def hours_ahead(request, offset):
     dt = datetime.datetime.now() + datetime.timedelta(hours=offset)
     html = "<html><body>In %s hour(s), it will be %s.</body></html>" % (offset, dt)
     return HttpResponse(html)
+def show_2linechart(request):
+    """
+    lineChart page
+    """
+    start_time = int(time.mktime(datetime.datetime(2012, 6, 1).timetuple()) * 1000)
+    nb_element = 100
+    xdata = range(nb_element)
+    xdata = map(lambda x: start_time + x * 1000000000, xdata)
+    ydata = [i + random.randint(1, 10) for i in range(nb_element)]
+    ydata2 = map(lambda x: x * 2, ydata)
+
+    tooltip_date = "%d %b %Y %H:%M:%S %p"
+    extra_serie = {"tooltip": {"y_start": "", "y_end": " cal"},
+                   "date_format": tooltip_date}
+    chartdata = {'x': xdata,
+                 'name1': 'series 1', 'y1': ydata, 'extra1': extra_serie,
+                 'name2': 'series 2', 'y2': ydata2, 'extra2': extra_serie}
+    charttype = "lineChart"
+    data = {
+        'charttype0': charttype,
+        'chartdata0': chartdata,
+        'charttype1': charttype,
+        'chartdata1': chartdata
+    }
+    #return render_to_response('2linechart.html', data)
+    #return render_to_response('row-grid.html',data)
+    t = get_template('row-grid.html')
+    html = t.render(RequestContext(request,data))
+    tmp=open('test_row.htmp','w')
+    print >> tmp,html
+    tmp.close()
+    return HttpResponse(html)
 
 def show_chart(request):
     xdata = ["Apple", "Apricot", "Avocado", "Banana", "Boysenberries", "Blueberries", "Dates", "Grapefruit", "Kiwi", "Lemon"]
@@ -95,12 +127,12 @@ def show_stackedareachart(request,rdata):
         for i in range(nb_element):
             ydata[j][i]-=ydata[j-1][i]
 
-        pprint.pprint(ydata[j])
+        #pprint.pprint(ydata[j])
     extra_serie1 = {"tooltip": {"y_start": "Log MAP: ", "y_end": ""}}
     extra_serie2 = {"tooltip": {"y_start": "BIC Difference: ", "y_end": ""}}
     extra_serie3 = {"tooltip": {"y_start": "Cheeseman_Stutz Score Difference: ", "y_end": ""}}
 
-    pprint.pprint(ydata)
+    #pprint.pprint(ydata)
     chartdata = {
         'x': xdata,
         'name1': 'LOG MAP', 'y1': ydata[0], 'extra1': extra_serie1,
@@ -230,7 +262,8 @@ def show_score(request,score_file,chart_type):
                 data[k,:] = np.array(row,str)
                 k+=1
         chart_type=int(chart_type)
-        pprint.pprint(data)
+        #pprint.pprint(data)
+        
         if chart_type == 1:
             return show_chart(request)
             #return show_chart(request,score_file,
@@ -263,6 +296,13 @@ def show_score(request,score_file,chart_type):
             #return render_to_response(template,datas)
             return render_to_response('multi_charts.html',datas)
 
+        elif chart_type == 0:
+            return render_to_response('sample_charts_2.html')
+        elif chart_type == 4:
+            return show_2linechart(request)
+        elif chart_type == 5:
+            return render_to_response('2line_chart_src.html')
+        
         else:
             return error_page(request,err_msg="Chart type unknown: %s"%chart_type)
 

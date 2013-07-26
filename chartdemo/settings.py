@@ -49,10 +49,11 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-#MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
-MEDIA_ROOT = '/home/wei/data_processing/chartdemo/chartdemo/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+#MEDIA_ROOT = '/home/wei/data_processing/chartdemo/chartdemo/media/'
 
-DATA_ROOT = '/home/wei/data_processing/chartdemo/chartdemo/data_source/'
+DATA_ROOT = os.path.join(os.path.dirname(__file__), 'data_source/')
+#DATA_ROOT = '/home/wei/data_processing/chartdemo/chartdemo/data_source/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -82,6 +83,8 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    #os.path.join(os.path.dirname(__file__).'static/'),
+    '/home/wei/chartdemo/chartdemo/static',
 )
 
 # List of finder classes that know how to find static files in
