@@ -52,6 +52,8 @@ USE_L10N = True
 #MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
 MEDIA_ROOT = '/home/wei/data_processing/chartdemo/chartdemo/media/'
 
+DATA_ROOT = '/home/wei/data_processing/chartdemo/chartdemo/data_source/'
+
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"

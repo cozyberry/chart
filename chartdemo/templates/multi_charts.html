@@ -1,0 +1,33 @@
+{% load nvd3_tags %}
+<head>
+{% include_nvd3jscss %}
+{% load_chart charttype0 chartdata0 "chart_container0" %}
+{% load_chart charttype1 chartdata1 "chart_container1" %}
+{% load_chart charttype2 chartdata2 "chart_container2" %}
+{% load_chart charttype3 chartdata3 "chart_container3" %}
+{% load_chart charttype4 chartdata4 "chart_container4" %}
+</head>
+
+<body>
+    <table>
+
+
+        <tr>
+        <td>{% include_container "chart_container0" 400 600 %}</td>
+        <td><table>
+        <tr>
+        <td>{% include_container "chart_container1" 400 600 %}</td>
+        <td>{% include_container "chart_container2" 400 600 %}</td>
+        </tr>
+
+        <tr>
+        <td>{% include_container "chart_container3" 400 600 %}</td>
+        <td>{% include_container "chart_container4" 400 600 %}</td>
+        </tr></table>
+        </td>
+
+        </tr>
+
+    </table>
+</body>
+
