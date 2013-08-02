@@ -1,0 +1,13 @@
+{% load nvd3_tags %}
+<head>
+    <!-- code to include the NVD3 and D3 libraries goes here -->
+    <!-- load_nvd3 filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+    {% include_nvd3jscss %}
+    {% load_chart charttype0 chartdata0 "linechart_container0" True "%d %b %Y %H" %}
+    {% load_chart charttype1 chartdata1 "linechart_container1" True "%d %b %Y %H" %}
+</head>
+<body>
+    <div>{% include_container "linechart_container0" 400 600 %}</div>
+    <div>{% include_container "linechart_container1" 400 600 %}</div>
+</body>

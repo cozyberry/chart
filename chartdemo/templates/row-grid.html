@@ -71,36 +71,14 @@ form.bs-docs-example {
 }
 </style>
 <body>
-<section>
+    <section>
 	<h2>example 1</h2>
-    <div class="row show-grid">
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-        <div class="span1" data-original-title="" title="">1</div>
-    </div>
-	<div class="row show-grid">
-          <div class="span2" data-original-title="" title="">2</div>
-          <div class="span3" data-original-title="" title="">3</div>
-          <div class="span4" data-original-title="" title="">4</div>
-    </div>
-	<div class="row show-grid">
-          <div class="span4" data-original-title="" title="">4</div>
-          <div class="span5" data-original-title="" title="">5</div>
-     </div>
-	<div class="row show-grid">
-           <div class="span9" data-original-title="" title="">9</div>
-    </div>
     <h2>offset cols</h2>
-    <!--<div>{% include_container "linechart_container1" 400 600 %}</div>-->
 	<div class="row show-grid">
-    <!--<div>{% include_container "linechart_container0" 400 600 %}</div>-->
-           <div class="span" data-original-title="" title="">{% include_container "linechart_container0" 400 600 %}</div>
+           <div class="span">{% include_container "linechart_container0" 400 600 %}</div>
+    </div>
+	<div class="row show-grid">
+           <div class="span">{% include_container "linechart_container1" 400 600 %}</div>
            <div class="span">{% include_container "linechart_container1" 400 600 %}</div>
     </div>
  	<div class="row show-grid">
@@ -109,9 +87,7 @@ form.bs-docs-example {
      </div>
 	<div class="row show-grid">
            <div class="span6 offset3" data-original-title="" title="">6 offset 3</div>
-    </section>
     </div>
-    <!--<div>{% include_container "linechart_container0" 400 600 %}</div>-->
-    <!--<div>{% include_container "linechart_container1" 400 600 %}</div>-->
-    </body>
-    </html>
+    </section>
+</body>
+</html>

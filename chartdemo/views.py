@@ -10,7 +10,7 @@ import os,sys,string
 import numpy as np
 import csv
 import pprint
-from utilities import add_prefix
+from utilities import add_suffix
 
 def current_datetime(request):
     now = datetime.datetime.now()
@@ -21,7 +21,8 @@ def hours_ahead(request, offset):
     dt = datetime.datetime.now() + datetime.timedelta(hours=offset)
     html = "<html><body>In %s hour(s), it will be %s.</body></html>" % (offset, dt)
     return HttpResponse(html)
-def show_2linechart(request):
+
+def show_2linechart_demo(request):
     """
     lineChart page
     """
@@ -45,14 +46,10 @@ def show_2linechart(request):
         'charttype1': charttype,
         'chartdata1': chartdata
     }
-    #return render_to_response('2linechart.html', data)
-    #return render_to_response('row-grid.html',data)
     t = get_template('row-grid.html')
     html = t.render(RequestContext(request,data))
-    tmp=open('test_row.htmp','w')
-    print >> tmp,html
-    tmp.close()
     return HttpResponse(html)
+    #return render_to_response('row-grid.html',data)
 
 def show_chart(request):
     xdata = ["Apple", "Apricot", "Avocado", "Banana", "Boysenberries", "Blueberries", "Dates", "Grapefruit", "Kiwi", "Lemon"]
@@ -71,34 +68,102 @@ def show_chart(request):
     #return HttpResponse(html)
     return render_to_response('piechart.html', data)
 
-def gen_multicharts_template(datas,template):
-    print >> template,"{% load nvd3_tags %}"
+def gen_multicharts_template(nchart,template):
+    print >> template,"""<!DOCTYPE html>
+<html>
+{% load nvd3_tags %}"""
     print >> template,"<head>"
     print >> template,"{% include_nvd3jscss %}"
-    for i in range(datas['nchart']):
+    for i in range(nchart):
         print >>template,'{%% load_chart charttype%d chartdata%d "chart_container%d" %%}'%(i,i,i)
-    print >> template,"</head>"
+    print >> template,"""<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>"""
     print >> template,"""
-<body>
-    <table>
-"""
-    nrow=int(datas['nchart']/2)
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/bootstrap-responsive.min.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/bootstrap.min.css">
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<style type="text/css">
+body{margin:20px 20px 20px 20px}
+h1, h2, h3, .masthead p, .subhead p, .marketing h2, .lead {font-family: "Helvetica Neue";font-weight: normal;}
+.show-grid [class*="span"] {
+    background-color: #EEEEEE;
+    border-radius: 3px 3px 3px 3px;
+    line-height: 40px;
+    min-height: 40px;
+    text-align: center;
+}
+.show-grid {
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.show-grid [class*="span"]:hover {
+    background-color: #DDDDDD;
+}
+.show-grid [class*="span"] [class*="span"] {
+    background-color: #CCCCCC;
+}
+.show-grid .show-grid [class*="span"] {
+    margin-top: 5px;
+}
+.show-grid [class*="span"] [class*="span"] [class*="span"] {
+    background-color: #999999;
+}
+.bs-docs-example:after {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+form.bs-docs-example {
+    padding-bottom: 19px;
+}
+.bs-docs-example {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 19px 14px;
+    position: relative;
+}
+.bs-docs-example-submenus .dropup > .dropdown-menu, .bs-docs-example-submenus .dropdown > .dropdown-menu {
+    display: block;
+    margin-bottom: 5px;
+    position: static;
+}
+.bs-docs-example-submenus {
+    min-height: 180px;
+}
+</style>"""
+    print >> template,"""<body>
+    <section>
+	<div class="row show-grid">
+           <div class="span">{% include_container "chart_container0" 400 600 %}</div>
+    </div>
+    """
+
+    nrow=int((nchart-1)/2)
     for i in range(nrow):
         print >> template,"""
-        <tr>
-        <td>{%% include_container "chart_container%d" 400 600 %%}</td>
-        <td>{%% include_container "chart_container%d" 400 600 %%}</td>
-        </tr>"""%(2*i,2*i+1)
-    if datas['nchart']%2 == 1:
+	<div class="row show-grid">
+           <div class="span">{%% include_container "chart_container%d" 400 600 %%}</div>
+           <div class="span">{%% include_container "chart_container%d" 400 600 %%}</div>
+    </div>"""%(2*i+1,2*i+2)
+    if nchart%2 == 0:
         print >> template,"""
-        <tr>
-        <td>{%% include_container "chart_container%d" 400 600 %%}</td>
-        </tr>"""%(datas['nchart']-1)
-
+	<div class="row show-grid">
+           <div class="span">{%% include_container "chart_container%d" 400 600 %%}</div>
+    </div>"""%(nchart-1)
     print >>template,"""
-    </table>
+    </section>
 </body>
-"""
+</html>"""
 
 
 def show_stackedareachart(request,rdata):
@@ -284,22 +349,24 @@ def show_score(request,score_file,chart_type):
 
             datas['nchart']=len(cts) 
         
-            template=add_prefix('multi_charts.html')
-            html=open(os.path.join(settings.TEMPLATE_DIRS,template),'w') 
-            gen_multicharts_template(datas,html)
-            html.close()
+            template=add_suffix('multi_charts.html')
             template_file=os.path.join(settings.TEMPLATE_DIRS,template)
+            html=open(template_file,'w') 
+            gen_multicharts_template(datas['nchart'],html)
+            html.close()
 
             if not os.path.exists(template_file):
                     return error_page(request,err_msg='file does not exist!%s'%template_file)
 
-            #return render_to_response(template,datas)
-            return render_to_response('multi_charts.html',datas)
+            t = get_template(template_file)
+            html = t.render(RequestContext(request,datas))
+            return HttpResponse(html)
+            #return render_to_response('multi_charts.html',datas)
 
         elif chart_type == 0:
             return render_to_response('sample_charts_2.html')
         elif chart_type == 4:
-            return show_2linechart(request)
+            return show_2linechart_demo(request)
         elif chart_type == 5:
             return render_to_response('2line_chart_src.html')
         
